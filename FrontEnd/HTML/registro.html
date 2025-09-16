@@ -1,0 +1,395 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WOCAN - Login e Cadastro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background: #000000; /* Fundo totalmente preto */
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Fundo atrás do conteúdo */
+        }
+        .container {
+            max-width: 450px;
+            margin: 80px auto;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.7); /* Fundo mais escuro e menos brilhante */
+            border-radius: 12px;
+            border: 1px solid rgba(208, 177, 4, 0.2); /* Borda dourada mais sutil */
+            box-shadow: 0 1px 2px rgba(208, 177, 4, 0.1); /* Sombra dourada mais sutil */
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(5px); /* Efeito de vidro fosco mais leve */
+            animation: fadeIn 0.8s ease-in-out; /* Animação de entrada */
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .form-control {
+            background-color: #000000; /* Inputs pretos */
+            border: 1px solid #333333;
+            color: #000000; 
+            border-radius: 8px;
+        }
+        .form-control:focus {
+            border-color: #8e7902; /* Dourado ao focar */
+            color: 000000;
+            box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.2);
+        }
+        .btn-primary {
+            background-color: #d0b104; /* Dourado mais vibrante */
+            color: #000000; /* Texto preto para contraste */
+            border-radius: 8px;
+            padding: 12px;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(208, 177, 4, 0.2);
+        }
+        .btn-primary:hover {
+            background-color: #f0cb04; /* Dourado mais claro ao passar o mouse */
+            color: #000000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(208, 177, 4, 0.3);
+        }
+        .input-group-text {
+            background-color: #000000; /* Fundo preto */
+            border: 1px solid #333333;
+            color: #d0b104;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group-text:hover {
+            background-color: #d0b104;
+            color: #000000;
+        }
+        input {
+            background: #000000; /* Inputs pretos */
+            border: 1px solid rgba(208, 177, 4, 0.2);
+            color: white; /* Texto branco */
+            padding: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            border-color: #d0b104;
+        }
+        .nav-link {
+            color: #d0b104 !important; /* Dourado para abas */
+            font-weight: 500;
+            border-bottom: none !important; /* Remover linha sob as abas */
+        }
+        .nav-link.active {
+            background-color: #d0b104 !important;
+            color: #000000 !important;
+            border-radius: 8px 8px 0 0;
+            border: none !important; /* Remover todas as bordas */
+        }
+        .nav-link:hover {
+            color: #d0b104 !important;
+        }
+        a {
+            color: #d0b104;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #d0b104;
+            text-decoration: underline;
+        }
+        h2 {
+            color: #d0b104; /* Dourado para o título */
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo-icon {
+            font-size: 3rem;
+            color: #d0b104;
+            margin-bottom: 10px;
+        }
+        .form-label {
+            color: #FFFFFF;
+            font-weight: 500;
+        }
+        
+    </style>
+</head>
+<body>
+    <canvas id="stars"></canvas>
+    <div class="container">
+        <div class="logo-container">
+            <div class="logo-icon">
+                <img src="../IMG/logoWOCAN.jpeg" alt="logo" style="width: 80px; height: 80px;">
+            </div>
+            <h2 class="mb-4">WOCAN</h2>
+        </div>
+        <ul class="nav nav-tabs mb-4" style="border-bottom: none;"> <!-- Remover linha sob as abas -->
+            <li class="nav-item">
+                <a class="nav-link active" id="login-tab" data-bs-toggle="tab" href="#login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="register-tab" data-bs-toggle="tab" href="#register">Cadastro</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="login">
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label for="contact" class="form-label"><i class="bi bi-person-fill me-2"></i>Contato ou Email</label>
+                        <input type="text" class="form-control" id="contact" placeholder="Email ou Telefone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label"><i class="bi bi-lock-fill me-2"></i>Senha</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" placeholder="Senha" required>
+                            <span class="input-group-text" id="togglePassword">
+                                <i class="bi bi-eye-slash"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mb-3 text-end">
+                        <a href="#">Esqueceu a senha?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Entrar</button>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="register">
+                <form id="registerForm">
+                    <div class="mb-3">
+                        <label for="name" class="form-label"><i class="bi bi-person-badge-fill me-2"></i>Nome Completo</label>
+                        <input type="text" class="form-control" id="name" placeholder="Nome Completo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label"><i class="bi bi-envelope-fill me-2"></i>Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label"><i class="bi bi-telephone-fill me-2"></i>Número de Telefone</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="Telefone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerPassword" class="form-label"><i class="bi bi-lock-fill me-2"></i>Senha</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="registerPassword" placeholder="Senha" required>
+                            <span class="input-group-text" id="toggleRegisterPassword">
+                                <i class="bi bi-eye-slash"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label"><i class="bi bi-shield-lock-fill me-2"></i>Confirmar Senha</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirmar Senha" required>
+                            <span class="input-group-text" id="toggleConfirmPassword">
+                                <i class="bi bi-eye-slash"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Animação de estrelas no fundo - Otimizada para melhor desempenho
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('stars');
+            const ctx = canvas.getContext('2d');
+            let stars = [];
+            let animationStarted = false;
+            
+            // Cores para as estrelas (tons dourados e brancos)
+            const starColors = [
+                'rgba(255, 255, 255, 0.9)',
+                'rgba(255, 255, 255, 0.7)',
+                'rgba(255, 215, 0, 0.8)',
+                'rgba(255, 223, 0, 0.6)',
+                'rgba(208, 177, 4, 0.7)'
+            ];
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                if (!animationStarted) {
+                    initStars();
+                    animateStars();
+                    animationStarted = true;
+                }
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            function createStar() {
+                return {
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 2 + 0.5,
+                    speed: Math.random() * 0.3 + 0.1,
+                    color: starColors[Math.floor(Math.random() * starColors.length)],
+                    opacity: Math.random() * 0.8 + 0.2,
+                    pulse: Math.random() * 0.03,
+                    pulseDirection: 1
+                };
+            }
+
+            function initStars() {
+                stars = [];
+                // Reduzindo o número de estrelas para melhor desempenho
+                const starCount = Math.min(80, Math.floor((canvas.width * canvas.height) / 10000));
+                for (let i = 0; i < starCount; i++) {
+                    stars.push(createStar());
+                }
+            }
+
+            function animateStars() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Fundo totalmente preto
+                ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                stars.forEach(star => {
+                    // Efeito de pulsação para algumas estrelas
+                    star.radius += star.pulse * star.pulseDirection;
+                    if (star.radius > 2.5 || star.radius < 0.5) {
+                        star.pulseDirection *= -1;
+                    }
+                    
+                    ctx.beginPath();
+                    ctx.fillStyle = star.color;
+                    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Movimento mais suave
+                    star.y += star.speed;
+                    if (star.y > canvas.height) {
+                        star.y = 0;
+                        star.x = Math.random() * canvas.width;
+                    }
+                });
+                requestAnimationFrame(animateStars);
+            }
+        });
+
+        // Funcionalidade do formulário
+        document.addEventListener('DOMContentLoaded', function() {
+            // Função para alternar visibilidade da senha
+            function setupPasswordToggle(toggleId, passwordId) {
+                const toggleElement = document.querySelector('#' + toggleId);
+                const passwordElement = document.querySelector('#' + passwordId);
+                
+                if (toggleElement && passwordElement) {
+                    toggleElement.addEventListener('click', function() {
+                        const type = passwordElement.getAttribute('type') === 'password' ? 'text' : 'password';
+                        passwordElement.setAttribute('type', type);
+                        this.querySelector('i').classList.toggle('bi-eye-slash');
+                        this.querySelector('i').classList.toggle('bi-eye');
+                    });
+                }
+            }
+            
+            // Configurar todos os toggles de senha
+            setupPasswordToggle('togglePassword', 'password');
+            setupPasswordToggle('toggleRegisterPassword', 'registerPassword');
+            setupPasswordToggle('toggleConfirmPassword', 'confirmPassword');
+            
+            // Adicionar efeito de destaque nos campos ao focar
+            const inputFields = document.querySelectorAll('input');
+            inputFields.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.classList.add('input-focused');
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.classList.remove('input-focused');
+                });
+            });
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const contact = document.getElementById('contact').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('http://localhost:4555/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contact, password })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    // Redirecionar para home.html em vez de mostrar alert
+                    window.location.href = 'home.html';
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                alert('Erro ao conectar com o servidor.');
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('As senhas não coincidem.');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:4555/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, phone, password })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    // Redirecionar para home.html após cadastro bem-sucedido
+                    window.location.href = 'home.html';
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                alert('Erro ao conectar com o servidor.');
+            }
+        });
+    </script>
+</body>
+</html>
