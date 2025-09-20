@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Publicação de projectos">
+    <title>Publicação de Projetos</title>
+    <link rel="stylesheet" type="text/css" href="./publicaoprojetosadim.css">
+    <script src="adim.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Área do Administrador</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Publicar Novos Projetos</h2>
+            <div id="mensagem-status" style="margin-bottom: 15px; padding: 10px; display: none;"></div>
+            <form id="formProjeto" enctype="multipart/form-data">
+                <label>Nome do Projeto</label><br>
+                <input type="text" name="nome" required><br><br>
+                
+                <label for="categoria">Categorias:</label>
+                <select name="categoria" id="categoria">
+                    <option value="desenvolvimento_web">Desenvolvimento Web</option>
+                    <option value="inteligencia_artificial">Inteligência Artificial</option>
+                    <option value="mobile">Aplicativos Mobile</option>
+                    <option value="seguranca">Segurança da Informação</option>
+                    <option value="cloud">Cloud Computing</option>
+                    <option value="blockchain">Blockchain</option>
+                    <option value="marketing_digital">Marketing Digital</option>
+                </select><br><br>
+                
+                <label for="linguagem">Linguagem de Programação</label><br>
+                <select name="linguagem" id="linguagem">
+                    <option value="javascript">JavaScript</option>
+                    <option value="python">Python</option>
+                    <option value="java">Java</option>
+                    <option value="csharp">C#</option>
+                    <option value="php">PHP</option>
+                    <option value="ruby">Ruby</option>
+                    <option value="go">Go</option>
+                    <option value="swift">Swift</option>
+                    <option value="kotlin">Kotlin</option>
+                    <option value="typescript">TypeScript</option>
+                    <option value="rust">Rust</option>
+                    <option value="cpp">C++</option>
+                    <option value="c">C</option>
+                </select><br><br>
+
+                <label>Descrição</label><br>
+                <textarea name="descricao" rows="3"></textarea><br><br>
+
+                <label>Arquivo do Projeto</label><br>
+                <input type="file" name="arquivo"><br><br>
+
+                <label>Link de Hospedagem</label><br>
+                <input type="url" name="link" required><br><br>
+
+                <label>Época Desenvolvida</label><br>
+                <input type="text" name="epoca"><br><br>
+
+                <label>Data de Publicação</label><br>
+                <input type="date" name="data"><br><br>
+
+                <label>Autor</label><br>
+                <input type="text" name="autor"><br><br>
+
+                <label>Status</label><br>
+                <select name="status">
+                    <option value="Publicado">Publicado</option>
+                    <option value="Rascunho">Rascunho</option>
+                </select><br><br>
+
+                <label>Versão</label><br>
+                <input type="text" name="versao"><br><br>
+                
+                <div id="erro-form" style="color: #FF6B6B; background-color: rgba(255, 107, 107, 0.1); border: 1px solid #FF6B6B; border-radius: 4px; padding: 10px; margin: 10px 0; text-align: center;"></div>
+                
+                <button type="submit">Salvar Projeto</button>
+            </form>
+        </section>
+
+        <section id="projetos-lista">
+            <h2>Projetos Cadastrados</h2>
+            <div id="lista-projetos">
+                <!-- Os projetos serão carregados aqui via JavaScript -->
+            </div>
+        </section>
+    </main>
+    <footer style="background-color: #FFD700; color: #000; font-weight: bold; border-top: 2px solid #000;">
+        <p>&copy; 2023 WOCAN - Todos os direitos reservados</p>
+    </footer>
+</body>
+</html>
